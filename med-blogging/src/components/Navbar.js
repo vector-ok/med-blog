@@ -13,7 +13,7 @@ class Navbar extends Component {
   constructor(props){
     super(props);
     this.state = {
-      name: '',
+      username: '',
       email: '',
       password: '',
       key: '',
@@ -34,6 +34,11 @@ class Navbar extends Component {
       contact: false,
       programActive: ''
     };
+    if (this.props.activateForm) {
+      this.setState({
+        modal1: true
+      });
+    }
   }
   componentDidMount = () => {
     if (this.props.dataToChild !== null) {
@@ -130,7 +135,7 @@ handleStyle = (nr) => (e) => {
       gallery: true,
       contact: false
     });
-    this.props.history.push('/gallery');
+    // this.props.history.push('/gallery');
   }
   if(nr === 6) {
     this.setState({
@@ -158,8 +163,7 @@ toastSubmitPost = () => {
 }
 
 signupSubmit = () => {
-  // axios.post('https://pabraces.herokuapp.com/admin/signup', this.state)
-  axios.post('https://pabraces.herokuapp.com/admin/signup', this.state)
+  axios.post('https://conduit.productionready.io/api/user', this.state)
   .then(response => {
     if(response.status === 200){
       // console.log('data posted - frontend', response);
@@ -188,12 +192,10 @@ toastWrongUser = () => {
   toast.error('wrong username or password!');
 }
 loginSubmit = () => {
-  // console.log('inside login func..');
-  axios.post('https://pabraces.herokuapp.com/admin/signin', this.state)
-  // axios.post('https://pabraces.herokuapp.com/admin/signin', this.state)
+  axios.post('https://conduit.productionready.io/api/users/login', this.state)
   .then(response => {
     if(response.status === 200){
-      console.log('inside login response..ok', response.data );
+      // console.log('inside login response..ok', response.data );
       // token is in response.data
       this.setState({
         loginError: false
@@ -247,7 +249,7 @@ logout = () => {
 }
 
 render() {
-  const { name, email, password, key} = this.state
+  const { username, email, password } = this.state
   return (
      // <Router>
      <MDBNavbar color="rgba-stylish-light" fixed="top" dark expand="lg" scrolling transparent>
@@ -383,9 +385,9 @@ render() {
            <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered>
       <MDBModalHeader toggle={this.toggle(1)}
         titleClass="d-inline title"
-        className="text-center light-blue darken-3 white-text px-2">
+        className="text-center pink darken-3 white-text px-2">
           <MDBIcon icon="user" classname="pr-2" />
-          &nbsp; Admin
+          &nbsp; You
       </MDBModalHeader>
       <MDBModalBody>
         <MDBRow>
@@ -393,7 +395,7 @@ render() {
       <form>
       <div className="text-center">
         <MDBBtn color="white" onClick={() => this.setState({loginForm: true})}>Login</MDBBtn>
-        <MDBBtn color="primary" onClick={() => this.setState({loginForm: false})}>Sign up</MDBBtn>
+        <MDBBtn color="pink" onClick={() => this.setState({loginForm: false})}>Sign up</MDBBtn>
       </div>
         {
           this.state.loginForm ?
@@ -430,10 +432,10 @@ render() {
         :
         <div>
           <div className="grey-text">
-            <MDBInput name="name" label="Type your name" icon="user" group type="text" validate error="wrong"
+            <MDBInput name="username" label="Type your username" icon="user" group type="text" validate error="wrong"
               success="right" className="black-text pl-5"
               onChange={this.changeHandler}
-              value={name} />
+              value={username} />
             <MDBInput name='email' label="Type your email" icon="envelope" group type="email" validate error="wrong"
               success="right" className="black-text pl-5"
               onChange={this.changeHandler}
@@ -441,10 +443,6 @@ render() {
             <MDBInput name="password" label="Type your password" icon="lock" group type="password" validate className="black-text pl-5"
             onChange={this.changeHandler}
             value={password} />
-            <MDBInput name="key" label="Enter key" icon="key" group type="text" validate error="wrong"
-              success="right" className="black-text pl-5"
-              onChange={this.changeHandler}
-              value={key} />
           </div>
           <div className="text-center">
             {
@@ -453,7 +451,7 @@ render() {
                   <strong>Oops!</strong> Something went wrong
                 </MDBAlert> : null
             }
-            <MDBBtn color="primary"
+            <MDBBtn color="pink"
             onClick={this.signupSubmit}>
               <MDBIcon icon="paper-plane" claassName="pr-2" />
               &nbsp; Sign up </MDBBtn>

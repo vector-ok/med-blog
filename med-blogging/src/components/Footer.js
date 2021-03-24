@@ -101,14 +101,15 @@ class Footer extends Component {
             {/* <!-- Footer links --> */}
             <div className="row text-center text-md-left mt-3 pb-3">
               <div className="col-lg-2 my-auto mt-3 mx-auto text-center">
-                <img className="img-fluid mr-3 pt-2" src="#!" alt="logo" />
+
               </div>
 
               {/* <!-- Grid column --> */}
               <div className="col-lg-3 mt-3 mx-auto">
                 <h6 className="text-uppercase mb-4 font-weight-bold">About Us</h6>
                 <div className="d-flex flex-row align-self-middle mt-3">
-                  <p className="my-auto">Professor Emmanuel Olubusayo Ajayi Orthodontics Advancement Foundation is an incorporated Trust dedicated  to advancing high quality orthodontic education, evidence-based research and state of the art equipments and dental facilities for provision of orthodontic care. </p>
+                  <p className="my-auto">
+                  A demo micro-blogging platform. Lorem Ipsum and so on</p>
                 </div>
               </div>
               {/* <!-- Grid column --> */}
@@ -124,20 +125,6 @@ class Footer extends Component {
                 <p>
                   <a href="#!" className="text-capitalize">Other</a>
                 </p>
-
-                <MDBTooltip domElement tag="span" placement="top" clickable>
-                  <p>
-                    Support
-                    <sup className="ml-1">
-                      <MDBIcon icon="question-circle"></MDBIcon>
-                    </sup>
-                  </p>
-                  <span>
-                    <p> <b> To support the Foundation</b>, <a href="/contact"><u>contact us</u></a> for details.</p>
-                    <p>For other support areas, kindly provide your details on our <a href="/join"><u>membership</u></a> page</p>
-                  </span>
-                </MDBTooltip>
-
                 <p>
                   <a href="#!" className="text-capitalize">Our team</a>
                 </p>
@@ -150,11 +137,11 @@ class Footer extends Component {
               <div className="col-lg-4 mx-auto mt-3">
                 <h6 className="text-uppercase mb-4 font-weight-bold">Contact</h6>
                 <p>
-                  <i className="fas fa-home mr-3"></i> 25 Bode Thomas Street, Surulere, Lagos, Nigeria</p>
+                  <i className="fas fa-home mr-3"></i> Lagos, Nigeria</p>
                 <p>
-                  <i className="fas fa-envelope mr-3"></i> admin@profajayibraces.org</p>
+                  <i className="fas fa-envelope mr-3"></i> joe@example</p>
                 <p>
-                  <MDBIcon icon="phone-alt" className="mr-3"></MDBIcon> + 234 802 300 3683</p>
+                  <MDBIcon icon="phone-alt" className="mr-3"></MDBIcon> + 234 800 000 000</p>
               </div>
               {/* <!-- Grid column --> */}
 
@@ -171,7 +158,7 @@ class Footer extends Component {
 
                 {/* <!--Copyright--> */}
                 <p className="text-center text-md-left">&copy; {new Date().getFullYear()} &nbsp; &nbsp;
-                  <strong> Professor Emmanuel Olubusayo Ajayi Orthodontics Advancement Foundation</strong>
+                  <strong> Mel Blogging</strong>
                 </p>
               </div>
 
@@ -182,17 +169,17 @@ class Footer extends Component {
                 <div className="text-center text-md-right">
                   <ul className="list-unstyled list-inline">
                     <li className="list-inline-item">
-                      <a className="btn-floating btn-sm rgba-white-slight mx-1" href="https://web.facebook.com/Prof-Emmanuel-Ajayi-Orthodontics-Advancement-Foundation-100848475376613/?_rdc=2&_rdr">
+                      <a className="btn-floating btn-sm rgba-white-slight mx-1" href="#!">
                         <i className="fab fa-facebook-f"></i>
                       </a>
                     </li>
                     <li className="list-inline-item">
-                      <a className="btn-floating btn-sm rgba-white-slight mx-1" href="https://twitter.com/BracesProf">
+                      <a className="btn-floating btn-sm rgba-white-slight mx-1" href="#!">
                         <i className="fab fa-twitter"></i>
                       </a>
                     </li>
                     <li className="list-inline-item">
-                      <a className="btn-floating btn-sm rgba-white-slight mx-1" href="https://www.instagram.com/profajayibraces/">
+                      <a className="btn-floating btn-sm rgba-white-slight mx-1" href="#!">
                         <i className="fab fa-instagram"></i>
                       </a>
                     </li>

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { MDBContainer, MDBView, MDBCard, MDBCardImage, MDBMask, MDBCardTitle, MDBCardText, MDBCardBody, MDBIcon, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBBtn, MDBRow, MDBCol, MDBInput, MDBAlert } from "mdbreact";
-import { BrowserRouter as Router, withRouter, Link } from 'react-router-dom';
+import { MDBView, MDBCard, MDBMask, MDBCardBody, MDBIcon, MDBRow, MDBCol, MDBAlert } from "mdbreact";
+import { withRouter } from 'react-router-dom';
 import axios from "axios";
+import defaultPhoto from '../assets/images/blonde-629726_640.jpg';
 
 class Story extends Component {
   constructor(props){
@@ -15,6 +16,7 @@ class Story extends Component {
     }
   }
   componentDidMount() {
+    window.scrollTo(0, 0);
     localStorage.getItem('localArticle') ? this.setState({
       slug: localStorage.getItem('localArticle')
     }) : localStorage.setItem("localArticle", JSON.stringify(this.props.article));
@@ -22,14 +24,6 @@ class Story extends Component {
     setTimeout(() => {
       this.getComments();
     }, 500)
-  }
-
-  componentDidUpdate = () => {
-    this.scrollToTop();
-  }
-
-  scrollToTop = () => {
-    // this.articleSet.scrollIntoView({ behavior: "smooth"})
   }
 
   getComments = () => {
@@ -60,7 +54,6 @@ class Story extends Component {
     });
     axios.get('https://conduit.productionready.io/api/articles?limit=5&offset=3')
     .then(response => {
-      // console.log('slug is ', this.props.article.slug);
       if(response.status === 200) {
         this.setState({
           similar: response.data.articles,
@@ -80,11 +73,9 @@ class Story extends Component {
     return(
       <div className="">
       { article ?
-        <MDBCard
-          className="my-5 pt-5 px-5 custom-card mx-auto"
+        <MDBCard className="my-5 pt-5 px-5 custom-card mx-auto"
         >
           <MDBCardBody className="pt-0">
-            {/* <MDBRow ref={(el) => { this.articleSet = el}}> */}
             <MDBRow>
               <MDBCol sm='12' className="my-5">
                 <h3 className="font-weight-bold dark-grey-text mb-4 p-0">
@@ -94,8 +85,8 @@ class Story extends Component {
                 <div className="custom-div">
                   <MDBView hover rounded className="z-depth-1-half mb-4">
                     <img
-                      className="img-fluid w-50 mx-auto"
-                      src="https://mdbootstrap.com/img/Photos/Slides/img%20(142).jpg"
+                      className="img-fluid mx-auto"
+                      src={defaultPhoto}
                       alt=""
                     />
                     <a href="#!">
@@ -120,7 +111,7 @@ class Story extends Component {
                   <p className="small mt-1 pt-1">{article.author ? article.author.username : JSON.parse(localStorage.getItem('localArticle')).author.username } </p>
                   <p className="font-weight-bold dark-grey-text">
                     <MDBIcon far icon="clock" className="pr-2" />
-                    {article.updatedAt ? article.updatedAt : article.created}
+                    {article.updatedAt ? article.updatedAt : article.createdAt}
                   </p>
                 </div>
               </MDBCol>
@@ -146,7 +137,7 @@ class Story extends Component {
                   { this.state.similar.map((story) =>
                   <MDBRow>
                     <MDBCol md="3">
-                      <MDBView hover rounded className="z-depth-1-half mb-4 w-75">
+                      <MDBView hover rounded className="z-depth-1-half mb-4 w-50">
                         <img
                           className="img-fluid"
                           src={story.author ? story.author.image : "https://mdbootstrap.com/img/Photos/Others/photo8.jpg"}
@@ -158,22 +149,37 @@ class Story extends Component {
                       </MDBView>
                     </MDBCol>
                     <MDBCol md="9">
-                      <p className="font-weight-bold dark-grey-text">
-                        {story.updatedAt ? story.updatedAt : story.crreatedAt}
-                      </p>
                       <div className="d-flex justify-content-between">
                         <MDBCol size="11" className="text-truncate pl-0 mb-3">
-                          <a href="#!" className="pink-text" onClick={(e) => {
+                          <a href="#!" className="font-weight-bold black-text" onClick={(e) => {
                             e.preventDefault();
+                            window.scrollTo({
+                              top: 0,
+                              left: 0,
+                              behavior: "smooth"
+                            });
                             this.setState({
                               articleState: story
                             });
                           }}>
                             {story.title}
                           </a>
+                            <p className="grey-text small">
+                              by <span className="pink-text"> {story.author.username} </span>
+                            </p>
                         </MDBCol>
                         <a href="#!">
-                          <MDBIcon icon="angle-double-right" className="pink-text" />
+                          <MDBIcon icon="angle-double-right" className="black-text" onClick={(e) => {
+                            e.preventDefault();
+                            window.scrollTo({
+                              top: 0,
+                              left: 0,
+                              behavior: "smooth"
+                            });
+                            this.setState({
+                              articleState: story
+                            });
+                          }}/>
                         </a>
                       </div>
                     </MDBCol>
@@ -187,7 +193,7 @@ class Story extends Component {
                   {this.state.similar.map((recommended) =>
                   <MDBRow>
                     <MDBCol md="3">
-                      <MDBView hover rounded className="z-depth-1-half mb-4 w-75">
+                      <MDBView hover rounded className="z-depth-1-half mb-4 w-50">
                         <img
                           className="img-fluid"
                           src={recommended.author? recommended.author.image : "https://mdbootstrap.com/img/Photos/Others/images/86.jpg"}
@@ -199,22 +205,37 @@ class Story extends Component {
                       </MDBView>
                     </MDBCol>
                     <MDBCol md="9">
-                      <p className="font-weight-bold dark-grey-text">
-                        {recommended.updatedAt ? recommended.updatedAt : recommended.createdAt}
-                      </p>
                       <div className="d-flex justify-content-between">
                         <MDBCol size="11" className="text-truncate pl-0 mb-3">
-                          <a href="#!" className="pink-text" onClick={(e) => {
+                          <a href="#!" className="black-text font-weight-bold text-capitalize" onClick={(e) => {
                             e.preventDefault();
+                            window.scrollTo({
+                              top: 0,
+                              left: 0,
+                              behavior: "smooth"
+                            });
                             this.setState({
                               articleState: recommended
                             });
                           }}>
                             {recommended.title}
                           </a>
+                            <p className="grey-text small">
+                              by <span className="pink-text"> {recommended.author.username} </span>
+                            </p>
                         </MDBCol>
                         <a href="#!">
-                          <MDBIcon icon="angle-double-right" className="pink-text" />
+                          <MDBIcon icon="angle-double-right" className="black-text" onClick={(e) => {
+                            e.preventDefault();
+                            window.scrollTo({
+                              top: 0,
+                              left: 0,
+                              behavior: "smooth"
+                            });
+                            this.setState({
+                              articleState: recommended
+                            });
+                          }}/>
                         </a>
                       </div>
                     </MDBCol>

@@ -5,8 +5,7 @@ import Home from './components/Home';
 import Footer from './components/Footer';
 import Profile from './components/Profile';
 import Story from './components/Story';
-// import Contact from './components/Contact';
-import About from './components/About';
+import Contact from './components/Contact';
 import './App.css';
 
 function App() {
@@ -22,18 +21,13 @@ function App() {
   function grabLogin (loginFromHome) {
     userLogin = loginFromHome;
     setForm(userLogin);
-    // console.log('form sent to app ', initialForm);
     return userLogin;
   };
-
-  // handleWriter = (article) => {
-  //   setWriter()
-  // }
 
   return (
     <div>
       <Router>
-        <Navbar dataToChild = {loggedIn} activateForm={initialForm} />
+        <Navbar dataToChild ={loggedIn}/>
         <Switch>
           <Route path="/" render={(props) => {
             return (
@@ -48,13 +42,8 @@ function App() {
           <Route path={'/story'} render={props => (
             <Story dataToChild ={loggedIn} article={initialArticle} />
           )} exact />
-
-          {/* <Route path={'/contact'}
-            render={props => (
-              <Contact dataToChild = {loggedIn} />
-            )} exact /> */}
-          <Route path={'/about'} render={props =>  (
-            <About dataToChild = {loggedIn} />
+          <Route path={'/contact'} render={props =>  (
+            <Contact dataToChild = {loggedIn} />
           )} exact />
         </Switch>
         <Footer/>
@@ -64,42 +53,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import logo from './logo.svg';
-// import './App.css';
-//
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-//
-// export default App;

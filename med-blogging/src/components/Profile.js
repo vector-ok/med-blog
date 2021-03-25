@@ -1,25 +1,33 @@
 import React, { Component } from "react";
-import { MDBContainer, MDBView, MDBCard, MDBCardImage, MDBMask, MDBCardTitle, MDBCardText, MDBCardBody, MDBIcon, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBBtn, MDBRow, MDBCol, MDBInput, MDBAlert } from "mdbreact";
-import { BrowserRouter as Router, withRouter, Link } from 'react-router-dom';
-import axios from "axios";
+import { MDBContainer, MDBView, MDBCard, MDBCardImage, MDBMask, MDBCardTitle, MDBCardText, MDBCardBody, MDBIcon, MDBRow, MDBCol } from "mdbreact";
+import { withRouter } from 'react-router-dom';
+import contact from '../assets/images/smartphone.png';
 
 class Profile extends Component {
-  constructor(props){
-    super(props)
-  }
 
   render(){
     return(
       <div>
-      { this.props.writer ?
+        <MDBContainer className="bg-light pt-1 mb-5" fluid>
+          <div className="row my-5 pt-5">
+            <div className="col-12 d-flex">
+              <img className="d-none d-sm-block img-fluid w-25 float-left border-right border-light" src={contact} alt="hand holding smartphone" />
+              <img className="d-block d-sm-none img-fluid img-xs float-left align-self-end mt-5" src={contact} alt="hand holding smartphone" />
+              <div className="align-self-center text-center">
+                <h1 className="d-none d-sm-block display-4 pl-4">Profile</h1>
+                <h2 className="d-block d-sm-none display-5-responsive pl-0">Profile</h2>
+              </div>
+            </div>
+          </div>
+        </MDBContainer>
 
-          <MDBContainer fluid className="my-5 pt-5">
-            <h1 className="mt-3">Profile</h1>
+      { this.props.writer ?
+          <MDBContainer fluid className="my-1">
             <MDBRow className="">
-            <MDBCol lg="6" className=" mx-auto">
-          <div className="card-group my-5">
+            <MDBCol md="4" className=" mx-auto">
+          <div className="card-group my-1">
             <MDBCard personal className="mb-md-0 mb-4">
-              <h3 className=" mx-auto">{this.props.writer.author.username}</h3>
+              <h3 className="mx-auto"> {this.props.writer.author.username}</h3>
               <MDBView hover>
                 <MDBCardImage
                   top

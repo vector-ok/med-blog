@@ -3,7 +3,6 @@ import { MDBCol, MDBContainer, MDBRow, MDBBtn, MDBIcon, MDBTooltip } from "mdbre
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import logo from '../assets/images/logo.png';
 
 class Footer extends Component {
   constructor(props){
@@ -17,9 +16,7 @@ class Footer extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    // const data = new FormData(e.target);
-    // console.log(this.state.email);
-    const API_PATH = 'http://profajayibraces.org/formProcessors/subscribe_form.php';
+    const API_PATH = 'http://example.com/api/endpoint';
     axios({
       method: 'post',
       url: API_PATH,
@@ -54,27 +51,12 @@ class Footer extends Component {
       <div>
         <MDBContainer fluid className="pt-5 mb-1">
           <MDBRow className="">
-            <MDBCol align="center" className="col-sm-12 py-3 mdb-color mx-auto  border-bottom-left border-bottom-right">
-              {/* {
-                this.state.dataSent ?
-                  this.emailSubscriptionStatus() :
-                  ''
-              } */}
-
-              {/* {this.state.dataSent ?
-                <p className="yellow-text">
-                  SUCCESS <span><MDBIcon icon="check"/></span> <br/><br/>
-                  Thanks for subscribing.
-                </p>
-                :
-                <p> Failed. </p>
-              } */}
+            <MDBCol align="center" className="col-sm-12 py-3 stylish-color mx-auto  border-bottom-left border-bottom-right">
               <form method="POST" onSubmit={this.handleSubmit} >
                 <p className="h4 text-lora text-center white-text py-2">
                   <MDBIcon icon="envelope" className="mr-2" />
 
                 Subscribe to receive updates </p>
-                {/* <MDBRow className=""> */}
                 <fragment className="text-center">
                   <input name="email"
                     type="email"
@@ -93,7 +75,7 @@ class Footer extends Component {
           </MDBRow>
         </MDBContainer>
 
-        <footer className="page-footer font-small mdb-color pt-4">
+        <footer className="page-footer font-small stylish-color pt-4">
 
           {/* <!-- Footer Links --> */}
           <div className="container text-center text-md-left">
@@ -109,7 +91,7 @@ class Footer extends Component {
                 <h6 className="text-uppercase mb-4 font-weight-bold">About Us</h6>
                 <div className="d-flex flex-row align-self-middle mt-3">
                   <p className="my-auto">
-                  A demo micro-blogging platform. Lorem Ipsum and so on</p>
+                  A demo micro-blogging platform. Lorem Ipsum and so on dajskjdja saalaflkf afiodfelaf aifnefie aifaioe aioalka aiakanoi ai eie riroirr </p>
                 </div>
               </div>
               {/* <!-- Grid column --> */}
@@ -123,7 +105,7 @@ class Footer extends Component {
                   <a href="#!" className="text-capitalize">About Us </a>
                 </p>
                 <p>
-                  <a href="#!" className="text-capitalize">Other</a>
+                  <a href="#!" className="text-capitalize">Partners</a>
                 </p>
                 <p>
                   <a href="#!" className="text-capitalize">Our team</a>

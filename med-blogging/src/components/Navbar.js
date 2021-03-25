@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBDropdown,
-MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBBtn, MDBRow, MDBCol, MDBInput, MDBAlert } from "mdbreact";
-import { BrowserRouter as Router, withRouter, Link } from 'react-router-dom';
+MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon, MDBModal, MDBModalHeader, MDBModalBody, MDBBtn, MDBRow, MDBCol, MDBInput, MDBAlert } from "mdbreact";
+import { withRouter } from 'react-router-dom';
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import logo from '../assets/images/logo.fw.png';
-// import logo_alt from '../assets/images/logo.png';
 
 class Navbar extends Component {
   constructor(props){
@@ -25,11 +24,8 @@ class Navbar extends Component {
       loginForm: true,
       loggedIn: false,
       isOpen: false,
-      home: false,
-      // home2: false,
       about: false,
-      programs: false,
-      join: false,
+      membership: false,
       gallery: false,
       contact: false,
       programActive: ''
@@ -70,81 +66,59 @@ handleStyle = (nr) => (e) => {
     this.setState({
       home: true,
       about: false,
-      programs: false,
-      join: false,
-      gallery: false,
+      membership: false,
+      write: false,
       contact: false
     });
     this.props.history.push('/')
   }
-  // if(nr === 7) {
-  //   this.setState({
-  //     home: false,
-  //     home2: true,
-  //     about: false,
-  //     programs: false,
-  //     join: false,
-  //     gallery: false,
-  //     contact: false
-  //   });
-  //   this.props.history.push('/home2');
-  // }
+
   if(nr === 2) {
     this.setState({
       home: false,
-      home2: false,
       about: true,
-      programs: false,
-      join: false,
-      gallery: false,
+      membership: false,
+      write: false,
       contact: false
     });
-    this.props.history.push('/about');
+    // this.props.history.push('/about');
   }
-  if(nr === 3) {
-    this.setState({
-      home: false,
-      home2: false,
-      about: false,
-      programs: true,
-      join: false,
-      gallery: false,
-      contact: false
-    });
-    this.props.history.push('/programs');
-  }
+  // if(nr === 3) {
+  //   this.setState({
+  //     home: false,
+  //     about: false,
+  //     membership: false,
+  //     write: false,
+  //     contact: false
+  //   });
+  //   this.props.history.push('/test');
+  // }
   if(nr === 4) {
     this.setState({
       home: false,
-      home2: false,
       about: false,
-      programs: false,
-      join: true,
-      gallery: false,
+      membership: true,
+      write: false,
       contact: false
     });
-    this.props.history.push('/join');
+    // this.props.history.push('/membership');
   }
   if(nr === 5) {
     this.setState({
       home: false,
-      home2: false,
       about: false,
-      programs: false,
-      join: false,
-      gallery: true,
+      membership: false,
+      write: true,
       contact: false
     });
-    // this.props.history.push('/gallery');
+    // this.props.history.push('/write');
   }
   if(nr === 6) {
     this.setState({
       home: false,
-      home2: false,
       about: false,
-      programs: false,
-      join: false,
-      gallery: false,
+      membership: false,
+      write: false,
       contact: true
     });
     this.props.history.push('/contact');
@@ -166,7 +140,6 @@ signupSubmit = () => {
   axios.post('https://conduit.productionready.io/api/user', this.state)
   .then(response => {
     if(response.status === 200){
-      // console.log('data posted - frontend', response);
       this.toastSubmitPost();
         this.setState({
           submitError: false,
@@ -174,7 +147,6 @@ signupSubmit = () => {
         });
         this.loginSubmit();
     } else {
-      // console.log('inside catch block');
       this.setState({
         submitError: true,
         // modal1: false
@@ -195,8 +167,6 @@ loginSubmit = () => {
   axios.post('https://conduit.productionready.io/api/users/login', this.state)
   .then(response => {
     if(response.status === 200){
-      // console.log('inside login response..ok', response.data );
-      // token is in response.data
       this.setState({
         loginError: false
       });
@@ -210,7 +180,6 @@ loginSubmit = () => {
         window.location.reload();
       }, 100);
     } else if (response === 401){
-      // this.toastWrongUser();
       this.setState({
         loggedIn: false,
         loginError: true,
@@ -220,7 +189,6 @@ loginSubmit = () => {
       //
     }
     else {
-      // console.log('inside catch block');
       this.setState({
         loggedIn: false,
         loginError: true,
@@ -242,22 +210,15 @@ logout = () => {
   })
   localStorage.clear();
   window.location.reload();
-  // let name = JSON.parse(localStorage.getItem("localData")).user.name;
-  // name.split(" ");
-  // // console.log(name[0]);
-  // return name[0];
 }
 
 render() {
   const { username, email, password } = this.state
   return (
      // <Router>
-     <MDBNavbar color="rgba-stylish-light" fixed="top" dark expand="lg" scrolling transparent>
-       {/* <MDBNavbar color="rgba-stylish-strong" fixed="top" dark expand="lg" scrolling className="d-block d-lg-none"> */}
+     <MDBNavbar color="rgba-stylish-strong" fixed="top" dark expand="lg" scrolling>
        <MDBNavbarBrand>
-         <img src={logo} alt="Med logo" className="img-fluid mr-3" />
-         {/* <img className="d-block d-sm-none w-25 img-responsive mr-3" src={logo_alt} alt="Foundation's logo" /> */}
-         {/* <strong className="white-text">Tech101</strong> */}
+        <a href="#!">  <img src={logo} alt="Med Blogging logo" className="img-fluid mr-3" /> </a>
        </MDBNavbarBrand>
        <MDBNavbarToggler onClick={this.toggleCollapse} />
        <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar className="transparent-bg-strong">
@@ -278,28 +239,20 @@ render() {
                <MDBNavLink to="#!" onClick={this.handleStyle(2)}>About</MDBNavLink>
              </MDBNavItem>}
 
-           { this.state.programs === true ?
+           {this.state.membership === true ?
              <MDBNavItem active className="mr-3">
-               <MDBNavLink to="#!" onClick={this.handleStyle(3)}>Programs</MDBNavLink>
+               <MDBNavLink to="/Join" onClick={this.handleStyle(4)}>Membership</MDBNavLink>
              </MDBNavItem> :
              <MDBNavItem className="mr-3">
-               <MDBNavLink to="#!" onClick={this.handleStyle(3)}>Programs</MDBNavLink>
+               <MDBNavLink to="/Join" onClick={this.handleStyle(4)}>Membership</MDBNavLink>
              </MDBNavItem>}
 
-           {this.state.join === true ?
+           {this.state.write === true ?
              <MDBNavItem active className="mr-3">
-               <MDBNavLink to="/Join" onClick={this.handleStyle(4)}>Join</MDBNavLink>
+               <MDBNavLink to="#!" onClick={this.handleStyle(5)}>Write</MDBNavLink>
              </MDBNavItem> :
              <MDBNavItem className="mr-3">
-               <MDBNavLink to="/Join" onClick={this.handleStyle(4)}>Join</MDBNavLink>
-             </MDBNavItem>}
-
-           {this.state.gallery === true ?
-             <MDBNavItem active className="mr-3">
-               <MDBNavLink to="#!" onClick={this.handleStyle(5)}>Gallery</MDBNavLink>
-             </MDBNavItem> :
-             <MDBNavItem className="mr-3">
-               <MDBNavLink to="#!" onClick={this.handleStyle(5)}> Gallery </MDBNavLink>
+               <MDBNavLink to="#!" onClick={this.handleStyle(5)}> Write </MDBNavLink>
              </MDBNavItem>}
 
            {this.state.contact === true ?
@@ -308,34 +261,22 @@ render() {
              </MDBNavItem> : <MDBNavItem className="mr-3">
                <MDBNavLink to="#!" onClick={this.handleStyle(6)}>Contact </MDBNavLink>
              </MDBNavItem>}
-           {/* <MDBNavItem>
-               <MDBDropdown>
-               <MDBDropdownToggle nav caret>
-               <div className="d-none d-md-inline">Dropdown</div>
-               </MDBDropdownToggle>
-                <MDBDropdownMenu className="dropdown-default">
-               <MDBDropdownItem href="#!">Action</MDBDropdownItem>
-               <MDBDropdownItem href="#!">Another Action</MDBDropdownItem>
-               <MDBDropdownItem href="#!">Something else here</MDBDropdownItem>
-               <MDBDropdownItem href="#!">Something else here</MDBDropdownItem>
-                </MDBDropdownMenu>
-               </MDBDropdown>
-             </MDBNavItem> */}
+
            </MDBNavbarNav>
            <MDBNavbarNav right>
              <MDBNavItem>
-               <MDBNavLink className="waves-effect waves-light" to="#!" onClick={()=> window.open("https://web.facebook.com/Prof-Emmanuel-Ajayi-Orthodontics-Advancement-Foundation-100848475376613/?_rdc=2&_rdr", "_blank")}>
+               <MDBNavLink className="waves-effect waves-light" to="#!" onClick={()=> window.open("https://facebook.com", "_blank")}>
                  <MDBIcon fab icon="facebook" />
                </MDBNavLink>
              </MDBNavItem>
              <MDBNavItem>
                <MDBNavLink className="waves-effect waves-light" to="#!" onClick={() =>
-                   window.open("https://twitter.com/BracesProf", "_blank") }>
+                   window.open("https://twitter.com/", "_blank") }>
                  <MDBIcon fab icon="twitter" />
                </MDBNavLink>
              </MDBNavItem>
              <MDBNavItem>
-               <MDBNavLink className="waves-effect waves-light" to="#!" onClick={() => window.open("https://www.instagram.com/profajayibraces/", "_blank")}>
+               <MDBNavLink className="waves-effect waves-light" to="#!" onClick={() => window.open("https://instagram.com", "_blank")}>
                  <MDBIcon fab icon="instagram" />
                </MDBNavLink>
              </MDBNavItem>
@@ -344,15 +285,13 @@ render() {
                   <MDBNavItem>
                     <MDBDropdown>
                      <MDBDropdownToggle nav caret>
-                    <MDBIcon icon="user" /> Admin
+                    <MDBIcon icon="user" /> User
                      </MDBDropdownToggle>
                      <MDBDropdownMenu className="dropdown-default">
                     <MDBDropdownItem href="#!">
                       <div className="waves-effect waves-light" to="#!" onClick={this.logout}>
                       <MDBIcon icon="sign-out-alt" className="px-2" />
                       Logout
-                      {/* <MDBBtn size="sm" color="white" outline>
-                         Logout </MDBBtn> */}
                     </div>
                     </MDBDropdownItem>
                      </MDBDropdownMenu>
@@ -371,9 +310,6 @@ render() {
                    login
                  </div>
                  </MDBDropdownItem>
-                 {/* <MDBDropdownItem href="#!">Another Action</MDBDropdownItem>
-                 <MDBDropdownItem href="#!">Something else here</MDBDropdownItem>
-                 <MDBDropdownItem href="#!">Something else here</MDBDropdownItem> */}
 
                   </MDBDropdownMenu>
                  </MDBDropdown>

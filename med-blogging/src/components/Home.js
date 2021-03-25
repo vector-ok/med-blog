@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { MDBContainer, MDBMask, MDBView, MDBBtn, MDBIcon, MDBAnimation, MDBRow, MDBCol, MDBCard, MDBCardTitle, MDBCardBody, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBInput, MDBAlert } from 'mdbreact';
+import { MDBContainer, MDBMask, MDBView, MDBBtn, MDBIcon, MDBAnimation, MDBRow, MDBCol, MDBCard, MDBCardTitle, MDBCardBody, MDBModal, MDBModalHeader, MDBModalBody, MDBInput, MDBAlert } from 'mdbreact';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../index.css';
-
-import Profile from './Profile';
 
 import bannerImg from "../assets/images/banner.fw.png";
 
@@ -17,7 +15,10 @@ class Home extends Component {
 
     this.state = {
       articles: [],
-      feed: [],
+      recentStory: [],
+      trendingStory: [],
+      techStory: [],
+      moreStory: [],
       followerStory: false,
       openForm: true,
       dataError: false,
@@ -33,25 +34,6 @@ class Home extends Component {
   componentDidMount() {
     localStorage.removeItem('localArticle');
     this.getArticles();
-    this.getFeed();
-  }
-
-  getFeed = () => {
-    // this.setState({
-    //   dataError: false
-    // });
-    axios.get('https://conduit.productionready.io/api/articles/feed?limit=3&offset=0')
-    .then(response => {
-      console.log('feed is ', response);
-      // if(response.status === 200){
-      //   this.setState({
-      //     feed: response.data
-      //   });
-      // } else {
-      //   console.log('something went wrong');
-      // }
-    })
-    .catch( error => error );
   }
 
   getArticles = () => {
@@ -59,15 +41,16 @@ class Home extends Component {
       articles: [],
       dataError: false,
     });
-    axios.get('https://conduit.productionready.io/api/articles?limit=3&offset=1')
+    axios.get('https://conduit.productionready.io/api/articles?limit=18&offset=1')
     .then(response => {
-      // console.log('response is ', response.data.articles[0]);
       if(response.status === 200) {
         this.setState({
-          articles: response.data.articles,
+          articles: response.data.articles.slice(0,3),
+          trendingStory: response.data.articles.slice(3,8),
+          techStory: response.data.articles.slice(8,13),
+          moreStory: response.data.articles.slice(13,18),
           dataError: false
         });
-        // console.log("res is ",this.state.articles[0].title);
       } else {
           this.setState({
             dataError: true,
@@ -93,23 +76,15 @@ class Home extends Component {
 
   toastSubmitPost = () => {
     toast.success("Operation successfull!")
-  }
+}
 
-  signupSubmit = () => {
-    this.setState({
-      user: {
-        username: this.state.username,
-        email: this.state.email,
-        password: this.state.password
-      }
+ signupSubmit = () => {
+    axios({
+      method: 'post',
+      url: 'https://conduit.productionready.io/api/user',
+      data:
+      this.state.user
     })
-    // let user = {
-    //   username: this.state.username,
-    //   email: this.state.email,
-    //   password: this.state.password,
-    // }
-    // console.log('user is ', this.state.user);
-    axios.post('https://conduit.productionready.io/api/user', this.state.user)
     .then(response => {
       console.log('signup data posted ', response);
       if(response.status === 201){
@@ -123,14 +98,12 @@ class Home extends Component {
         console.log('inside else block');
         this.setState({
           submitError: true,
-          // modal1: false
         });
       }
     })
     .catch(error => console.log(error))
     this.setState({
       submitError: true,
-      // modal1: false
     });
   }
 
@@ -141,7 +114,6 @@ class Home extends Component {
     axios.post('https://conduit.productionready.io/api/users/login', this.state)
     .then(response => {
       if(response.status === 200){
-        // console.log('inside login response..ok', response.data );
         this.setState({
           loginError: false
         });
@@ -155,17 +127,14 @@ class Home extends Component {
           window.location.reload();
         }, 100);
       } else if (response === 401){
-        // this.toastWrongUser();
         this.setState({
           loggedIn: false,
           loginError: true,
           errorMsg: 'wrong email or password!',
           modal1: this.state.modal1
         });
-        //
       }
       else {
-        // console.log('inside catch block');
         this.setState({
           loggedIn: false,
           loginError: true,
@@ -187,16 +156,7 @@ class Home extends Component {
     })
     localStorage.clear();
     window.location.reload();
-    // let name = JSON.parse(localStorage.getItem("localData")).user.name;
-    // name.split(" ");
-    // // console.log(name[0]);
-    // return name[0];
   }
-
-  // handleLogin = (e) => {
-  //   e.preventDefault();
-  //   this.props.loginForm(this.state.openForm)
-  // }
 
       render() {
         const {articles, username, email, password} = this.state;
@@ -204,10 +164,7 @@ class Home extends Component {
               <div className="">
                 <MDBView src={bannerImg} className="d-block img-fluid text-center bg-banner" fixed>
                   <MDBMask overlay="" className="d-flex flex-column justify-content-center align-items-start text-white text-center px-5 mt-5">
-                    {/* <h1 className="text-lora text-capitalize display-5 mb-0">Healthy, beautiful smile for everyone </h1>
-                    <p className="mb-0">We partner with you to straighten teeth, restore oral health and give back smiles.</p> */}
-                    {/* <p className="mb-0">"Always find opportunities to make some smile, and to offer random acts of kindness in everyday life."  </p>
-                    <p className="small pr-1">- Roy T. Bennet</p> */}
+
                     <MDBAnimation type="pulse" infinite>
                       <MDBBtn color="white" gradient="" className="shadow rounded mb-5 mb-sm-0 pink-text" onClick={this.toggle(1)} > Get Started
                         <MDBIcon icon="users" className="ml-2 pink-text" />
@@ -216,26 +173,17 @@ class Home extends Component {
                   </MDBMask>
                 </MDBView>
 
-                {/* ****************************************************************************** */}
-
                 <main>
-                  <MDBContainer fluid classname="mt-0 pt-0 mb-0 pb-0 bg-gray">
-                    { this.state.dataError === true ?
-                      <MDBAlert color="danger">
-                        Error! Could not retrieve data. MAke sure you have internet connection.
-                      </MDBAlert> : ''
-                    }
+                  <MDBContainer fluid className="mt-0 pt-0 mb-0 pb-0">
+                      { this.state.dataError === true ? <MDBAlert color="danger">
+                          Error! Could not retrieve data. Make sure you have internet connection.
+                        </MDBAlert> : ' '
+                      }
                     <MDBCard className="my-1 px-5 pb-5">
-      <MDBCardBody className="text-left">
-        <h4 className="h2-responsive font-weight-bold text-center my-4">
+                      <MDBCardBody className="text-left">
+                        <h4 className="h2-responsive font-weight-bold text-center my-4">
           Articles
         </h4>
-        {/* <p className="text-center w-responsive mx-auto mb-5">
-          Duis aute irure dolor in reprehenderit in voluptate velit esse
-          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-          cupidatat non proident, sunt in culpa qui officia deserunt mollit
-          anim id est laborum.
-        </p> */}
         <MDBRow>
           <MDBCol lg="4" md="12" className="mb-lg-0 mb-4">
             <h5 className="font-weight-bold">Featured Story</h5>
@@ -253,20 +201,21 @@ class Home extends Component {
                 {this.state.articles.length > 0 ? this.state.articles[0].slug : " "}
               </h6>
             </a>
-            <h4 className="font-weight-bold mb-1">
+            <h4 className="font-weight-bold text-capitalize mb-1">
               <strong>{this.state.articles.length > 0 ? this.state.articles[0].title : " "}</strong>
             </h4>
             <p className="dark-grey-text">
-              {this.state.articles.length > 0 ? this.state.articles[0].description : " "}
+              {this.state.articles.length > 0 ? (this.state.articles[0].description.length > 120 ? this.state.articles[0].description.slice(0, 120)+"..." : this.state.articles[0].description) : " "}
             </p>
             <p>
-            {this.state.articles.length > 0 ? this.state.articles[0].body : " "}
+            {this.state.articles.length > 0 ? (this.state.articles[0].body.length > 100 ? this.state.articles[0].body.slice(0, 100)+"..." : this.state.articles[0].body) : " "}
             </p>
             <p>
-              { this.state.articles.length > 0 ? (this.state.articles[0].favorited ? <MDBIcon icon="heart" className="pr-1" /> : <MDBIcon far icon="heart" className="pr-1" />) : " "}
+              { this.state.articles.length > 0 ? (this.state.articles[0].favoritesCount > 0 ? <MDBIcon icon="heart" className="pr-1 pink-text" /> : <MDBIcon far icon="heart" className="pr-1" />) : " "}
               { this.state.articles.length > 0 ? this.state.articles[0].favoritesCount : " "}
             </p>
-            <MDBView className="rounded z-depth-2 mb-lg-0 mx-2 mb-4 float-right w-25" hover waves onClick={() => {
+            <MDBView className="rounded z-depth-2 mb-lg-0 mx-2 mb-4 float-right w-25" hover waves onClick={(e) => {
+              e.preventDefault();
               this.props.sendWriter(this.state.articles[0]);
               this.props.history.push("/profile")
             }}>
@@ -275,20 +224,21 @@ class Home extends Component {
                 src={ this.state.articles.length > 0 ? this.state.articles[0].author.image : " "}
                 alt=""
               />
-              <a href="">
+              <a href="#!">
                 <MDBMask overlay="white-slight" />
               </a>
             </MDBView>
             <p>
-              by <a href="#!" className="font-weight-bold">{this.state.articles.length > 0 ? this.state.articles[0].author.username : " "}</a>, <br />
+              by <a href="#!" className="font-weight-bold">{this.state.articles.length > 0 ? this.state.articles[0].author.username : " "}</a>, <br /> <p className="small">
               {this.state.articles.length > 0 ? this.state.articles[0].createdAt : " "}
+            </p>
             </p>
             <p>
               { this.state.articles.length > 0 ? this.state.articles[0].tagList : " "}
             </p>
             <MDBBtn color="pink" rounded size="md" onClick={() => {
               this.props.sendArticle(this.state.articles[0]);
-              this.props.history.push("/profile")
+              this.props.history.push("/story")
             }}>
               Read more
             </MDBBtn>
@@ -297,7 +247,7 @@ class Home extends Component {
           <MDBCol lg="4" md="12" className="mb-lg-0 mb-4">
             <h5 className="font-weight-bold">Recent Stories</h5>
             { articles.map((article) => {
-              return <MDBCol key={article.createdAt} className="mb-4">
+              return <MDBCol key={article.createdAt} className="mb-2">
               <a href="#!" className="pink-text">
                 <h6 className="font-weight-bold mb-1">
                   <MDBIcon icon="image" className="pr-2" />
@@ -331,13 +281,13 @@ class Home extends Component {
                   this.props.history.push("/profile")
                 }}>
                   <strong> {article.author.username}</strong>
-                </a>
-                , <br/> {article.createdAt}
+                </a> <br />
+                <span className="small"> {article.createdAt} </span>
               </p>
               <MDBBtn
                 color="pink"
                 size="md"
-                className="mb-lg-0 mb-4 ml-1 waves-light"  onClick={(e) => {
+                className="mb-lg-0 mt-1 mb-2 ml-1 waves-light"  onClick={(e) => {
                   e.preventDefault();
                   this.props.sendArticle(article);
                   this.props.history.push("/story")
@@ -452,7 +402,18 @@ class Home extends Component {
          </MDBAlert> : null
      }
      <MDBBtn color="pink"
-     onClick={this.signupSubmit}>
+     onClick={(e) => {
+       e.preventDefault();
+       this.setState({
+         user: {
+           username: this.state.username,
+           email: this.state.email,
+           password: this.state.password
+         }
+       })
+       this.signupSubmit()
+     }
+     }>
        <MDBIcon icon="paper-plane" claassName="pr-2" />
        &nbsp; Sign up </MDBBtn>
    </div>
@@ -465,13 +426,155 @@ class Home extends Component {
 </MDBModalBody>
 </MDBModal>
 
-                    <div className="text-center bg-gray py-3">
-                      <a href="http://www.contemporarydentalclinic.com">
-                       <img className="text-center mt-sm-2" src="#!" alt="Contemporary Dental Clinic logo" />
-                      </a>
-                      <h3 className="text-lora text-oblique text-center mb-1">Contemporary Dental Clinic</h3>
-                      <p className="small pr-1">  Partner   </p>
-                    </div>
+<MDBContainer fluid className="mt-5">
+  <MDBRow>
+    <MDBCol md="4" sm="12" className="">
+      <div className="custom-div">
+        <h5 className="font-weight-bold">Trending Stories</h5>
+        { this.state.trendingStory.map((trending) =>
+        <MDBRow>
+          <MDBCol md="3">
+            <MDBView hover rounded className="z-depth-1-half mb-4 w-75"  onClick={(e) => {
+              e.preventDefault();
+              this.props.sendWriter(trending);
+              this.props.history.push("/profile")
+            }}>
+              <img
+                className="img-fluid"
+                src={trending.author ? trending.author.image : "https://mdbootstrap.com/img/Photos/Others/photo8.jpg"}
+                alt=""
+              />
+              <a href="#!">
+                <MDBMask overlay="white-slight" className="waves-light" />
+              </a>
+            </MDBView>
+          </MDBCol>
+          <MDBCol md="9">
+            <div className="d-flex justify-content-between">
+              <MDBCol size="11" className="text-truncate pl-0 mb-3">
+                <a href="#!" className="font-weight-bold black-text text-capitalize" onClick={(e) => {
+                  e.preventDefault();
+                  this.props.sendArticle(trending);
+                  this.props.history.push("/story")
+                }}>
+                  {trending.title}
+                </a>
+                <p className="grey-text small">
+                  by <span className="pink-text"> {trending.author.username} </span>
+                </p>
+              </MDBCol>
+              <a href="#!" onClick={() => {
+                this.props.sendArticle(trending);
+                this.props.history.push("/story")
+              }}>
+                <MDBIcon icon="angle-double-right" className="black-text" />
+              </a>
+            </div>
+          </MDBCol>
+        </MDBRow>)}
+      </div>
+    </MDBCol>
+
+    <MDBCol md="4" sm="12">
+      <div className="custom-div">
+        <h5 className="font-weight-bold">Tech Stories</h5>
+        {this.state.techStory.map((tech) =>
+        <MDBRow>
+          <MDBCol md="3">
+            <MDBView hover rounded className="z-depth-1-half mb-4 w-75" onClick={(e) => {
+              e.preventDefault();
+              this.props.sendWriter(tech);
+              this.props.history.push("/profile")
+            }}>
+              <img
+                className="img-fluid"
+                src={tech.author? tech.author.image : "https://mdbootstrap.com/img/Photos/Others/images/86.jpg"}
+                alt=""
+              />
+              <a href="#!">
+                <MDBMask overlay="white-slight" className="waves-light" />
+              </a>
+            </MDBView>
+          </MDBCol>
+          <MDBCol md="9">
+            <div className="d-flex justify-content-between">
+              <MDBCol size="11" className="text-truncate pl-0 mb-3">
+                <a href="#!" className="black-text font-weight-bold text-capitalize" onClick={(e) => {
+                  e.preventDefault();
+                  this.props.sendArticle(tech);
+                  this.props.history.push("/story")
+                }}>
+                  {tech.title}
+                </a>
+                <p className="grey-text small">
+                  by <span className="pink-text"> {tech.author.username} </span>
+                </p>
+              </MDBCol>
+              <a href="#!">
+                <MDBIcon icon="angle-double-right" className="black-text" onClick={(e) => {
+                  e.preventDefault();
+                  this.props.sendArticle(tech);
+                  this.props.history.push("/story")
+                }} />
+              </a>
+            </div>
+          </MDBCol>
+        </MDBRow>
+      )}
+      </div>
+    </MDBCol>
+
+    <MDBCol md="4" sm="12">
+      <div className="custom-div">
+        <h5 className="font-weight-bold">More Stories</h5>
+        {this.state.moreStory.map((more) =>
+        <MDBRow>
+          <MDBCol md="3">
+            <MDBView hover rounded className="z-depth-1-half mb-4 w-75" onClick={(e) => {
+              e.preventDefault();
+              this.props.sendWriter(more);
+              this.props.history.push("/profile")
+            }}>
+              <img
+                className="img-fluid"
+                src={more.author? more.author.image : "https://mdbootstrap.com/img/Photos/Others/images/86.jpg"}
+                alt=""
+              />
+              <a href="#!">
+                <MDBMask overlay="white-slight" className="waves-light" />
+              </a>
+            </MDBView>
+          </MDBCol>
+          <MDBCol md="9">
+            <div className="d-flex justify-content-between">
+              <MDBCol size="11" className="text-truncate pl-0 mb-3">
+                <a href="#!" className="black-text font-weight-bold" onClick={(e) => {
+                  e.preventDefault();
+                  this.props.sendArticle(more);
+                  this.props.history.push("/story")
+                }}>
+                  {more.title}
+                </a>
+                <p className="grey-text small">
+                  by <span className="pink-text"> {more.author.username} </span>
+                </p>
+              </MDBCol>
+              <a href="#!">
+                <MDBIcon icon="angle-double-right" className="black-text" onClick={(e) => {
+                  e.preventDefault();
+                  this.props.sendArticle(more);
+                  this.props.history.push("/story")
+                }}/>
+              </a>
+            </div>
+          </MDBCol>
+        </MDBRow>
+      )}
+      </div>
+    </MDBCol>
+
+  </MDBRow>
+</MDBContainer>
                   </MDBContainer>
                 </main>
 

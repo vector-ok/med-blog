@@ -73,7 +73,7 @@ class Story extends Component {
     return(
       <div className="">
       { article ?
-        <MDBCard className="my-5 pt-5 px-5 custom-card mx-auto"
+        <MDBCard className="my-5 pt-5 px-1 md-px-5 custom-card mx-auto"
         >
           <MDBCardBody className="pt-0">
             <MDBRow>

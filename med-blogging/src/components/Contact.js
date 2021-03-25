@@ -46,7 +46,7 @@ class Contact extends Component {
         <div className="row my-5 pt-5">
           <div className="col-12 d-flex">
             <img className="d-none d-sm-block img-fluid w-25 float-left border-right border-light" src={contact} alt="hand holding smartphone" />
-            <img className="d-block d-sm-none img-fluid img-xs float-left align-self-end mt-5" src={contact} alt="hand holding smartphone" />
+            {/* <img className="d-block d-sm-none img-fluid img-xs float-left align-self-end mt-5" src={contact} alt="hand holding smartphone" /> */}
             <div className="align-self-center text-center">
               <h1 className="d-none d-sm-block display-4 pl-4">Contact Us</h1>
               <h2 className="d-block d-sm-none display-5-responsive pl-0">Contact Us</h2>

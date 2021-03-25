@@ -158,6 +158,12 @@ class Home extends Component {
     window.location.reload();
   }
 
+  handleDate = (date) => {
+    let dateInMillisecond = Date.parse(date);
+    let dateFormatted = new Date(dateInMillisecond);
+    return dateFormatted;
+  }
+
       render() {
         const {articles, username, email, password} = this.state;
         return (
@@ -166,7 +172,13 @@ class Home extends Component {
                   <MDBMask overlay="" className="d-flex flex-column justify-content-center align-items-start text-white text-center px-5 mt-5">
 
                     <MDBAnimation type="pulse" infinite>
-                      <MDBBtn color="white" gradient="" className="shadow rounded mb-5 mb-sm-0 pink-text" onClick={this.toggle(1)} > Get Started
+                      {/* for small screens < md                     */}
+                      <MDBBtn color="white" size="sm" className="d-block d-md-none shadow rounded mt-0 mb-5 mb-sm-0 ml-0 pink-text" onClick={this.toggle(1)} > Get Started
+                        <MDBIcon icon="users" className="ml-2 pink-text" />
+                      </MDBBtn>
+
+                      {/* for screens > md */}
+                      <MDBBtn color="white" gradient="" className="d-none d-md-block shadow rounded mb-5 mb-sm-0 pink-text" onClick={this.toggle(1)} > Get Started
                         <MDBIcon icon="users" className="ml-2 pink-text" />
                       </MDBBtn>
                     </MDBAnimation>
@@ -175,11 +187,11 @@ class Home extends Component {
 
                 <main>
                   <MDBContainer fluid className="mt-0 pt-0 mb-0 pb-0">
-                      { this.state.dataError === true ? <MDBAlert color="danger">
+                      { this.state.dataError ? <MDBAlert color="danger">
                           Error! Could not retrieve data. Make sure you have internet connection.
                         </MDBAlert> : ' '
                       }
-                    <MDBCard className="my-1 px-5 pb-5">
+                    <MDBCard className="my-1 px-1 md-px-5 pb-5">
                       <MDBCardBody className="text-left">
                         <h4 className="h2-responsive font-weight-bold text-center my-4">
           Articles

@@ -214,7 +214,7 @@ class Home extends Component {
               { this.state.articles.length > 0 ? (this.state.articles[0].favoritesCount > 0 ? <MDBIcon icon="heart" className="pr-1 pink-text" /> : <MDBIcon far icon="heart" className="pr-1" />) : " "}
               { this.state.articles.length > 0 ? this.state.articles[0].favoritesCount : " "}
             </p>
-            <MDBView className="rounded z-depth-2 mb-lg-0 mx-2 mb-4 float-right w-25" hover waves onClick={(e) => {
+            <MDBView className="rounded z-depth-1-half mb-lg-0 mx-2 mb-4 float-right author-thumbnail" hover waves onClick={(e) => {
               e.preventDefault();
               this.props.sendWriter(this.state.articles[0]);
               this.props.history.push("/profile")
@@ -253,12 +253,12 @@ class Home extends Component {
                   <MDBIcon icon="image" className="pr-2" />
                   { article.slug }
                 </h6>
-                <MDBView className="rounded z-depth-2 mb-lg-0 mx-2 mb-4 float-right w-25" hover waves onClick={() => {
+                <MDBView className="rounded z-depth-1-half mb-lg-0 mx-2 mb-4 float-right author-thumbnail" hover waves onClick={() => {
                   this.props.sendWriter(article);
                   this.props.history.push("/profile")
                 }}>
                   <img
-                    className="img-fluid"
+                    className="img-fluid author-thumbnail"
                     src={article.author.image}
                     alt="writer"
                   />
@@ -434,7 +434,7 @@ class Home extends Component {
         { this.state.trendingStory.map((trending) =>
         <MDBRow>
           <MDBCol md="3">
-            <MDBView hover rounded className="z-depth-1-half mb-4 w-75"  onClick={(e) => {
+            <MDBView hover rounded className="z-depth-1-half mb-4 author-thumbnail"  onClick={(e) => {
               e.preventDefault();
               this.props.sendWriter(trending);
               this.props.history.push("/profile")
@@ -481,7 +481,7 @@ class Home extends Component {
         {this.state.techStory.map((tech) =>
         <MDBRow>
           <MDBCol md="3">
-            <MDBView hover rounded className="z-depth-1-half mb-4 w-75" onClick={(e) => {
+            <MDBView hover rounded className="z-depth-1-half mb-4 author-thumbnail" onClick={(e) => {
               e.preventDefault();
               this.props.sendWriter(tech);
               this.props.history.push("/profile")
@@ -530,7 +530,7 @@ class Home extends Component {
         {this.state.moreStory.map((more) =>
         <MDBRow>
           <MDBCol md="3">
-            <MDBView hover rounded className="z-depth-1-half mb-4 w-75" onClick={(e) => {
+            <MDBView hover rounded className="z-depth-1-half mb-4 author-thumbnail" onClick={(e) => {
               e.preventDefault();
               this.props.sendWriter(more);
               this.props.history.push("/profile")

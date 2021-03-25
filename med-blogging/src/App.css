@@ -6,8 +6,8 @@ body {
 }
 
 .author-thumbnail {
-  max-width: 50px;
-  max-height: 50px;
+  width: 60px;
+  height: 60px;
 }
 .custom-div {
   borderBottom: "1px solid #e0e0e0";

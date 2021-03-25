@@ -117,7 +117,7 @@ class Story extends Component {
               </MDBCol>
               <hr />
 
-              {/* implement comment  */}
+              {/* comment section  */}
               <MDBCol sm='12' className="mb-5 py-2">
                 <h5 className="mb-2 pb-2 font-weight-bold">Comments ({this.state.comments.length})</h5>
                 {this.state.comments.map((comment) =>
@@ -137,7 +137,7 @@ class Story extends Component {
                   { this.state.similar.map((story) =>
                   <MDBRow>
                     <MDBCol md="3">
-                      <MDBView hover rounded className="z-depth-1-half mb-4 w-50">
+                      <MDBView hover rounded className="z-depth-1-half mb-4 author-thumbnail">
                         <img
                           className="img-fluid"
                           src={story.author ? story.author.image : "https://mdbootstrap.com/img/Photos/Others/photo8.jpg"}
@@ -193,7 +193,7 @@ class Story extends Component {
                   {this.state.similar.map((recommended) =>
                   <MDBRow>
                     <MDBCol md="3">
-                      <MDBView hover rounded className="z-depth-1-half mb-4 w-50">
+                      <MDBView hover rounded className="z-depth-1-half mb-4 author-thumbnail">
                         <img
                           className="img-fluid"
                           src={recommended.author? recommended.author.image : "https://mdbootstrap.com/img/Photos/Others/images/86.jpg"}
